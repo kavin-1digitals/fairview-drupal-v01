@@ -1,0 +1,29 @@
+services:
+  fvd-web-container:
+    build: .
+    ports:
+      - "8081:80"
+    volumes:
+      - .:/var/www/html   # local ↔ container sync
+    depends_on:
+      - fvd-db-container
+    environment:
+      DRUPAL_DB_HOST: fvd-db-container
+      DRUPAL_DB_NAME: fvd-db
+      DRUPAL_DB_USER: fvd-db-user
+      DRUPAL_DB_PASSWORD: fvd-db-pwd
+      DRUPAL_DB_PORT: "3306"
+      DRUPAL_HASH_SALT: "local-dev-change-me-before-production"
+
+  fvd-db-container:
+    image: mariadb:11
+    environment:
+      MYSQL_DATABASE: fvd-db
+      MYSQL_USER: fvd-db-user
+      MYSQL_PASSWORD: fvd-db-pwd
+      MARIADB_ROOT_PASSWORD: fvd-db-root-pwd
+    volumes:
+      - fvd-db-container-data:/var/lib/mysql   # DB stays in Docker, not in git
+
+volumes:
+  fvd-db-container-data:
