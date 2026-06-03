@@ -14,6 +14,8 @@ services:
       DRUPAL_DB_PASSWORD: fvd-db-pwd
       DRUPAL_DB_PORT: "3306"
       DRUPAL_HASH_SALT: "local-dev-change-me-before-production"
+      HOME: /tmp
+      COMPOSER_HOME: /tmp/composer
 
   fvd-db-container:
     image: mariadb:11
